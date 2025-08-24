@@ -1,162 +1,291 @@
 <!doctype html>
-<html lang="en">
+<html lang="tr">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ozcelik Inc — Website</title>
-  <meta name="description" content="Ozcelik Inc. app homepage and privacy policy." />
+  <title>Ozcelik Inc — Anasayfa</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <meta name="description" content="Ozcelik Inc. uygulama anasayfası ve gizlilik politikası." />
   <style>
     :root {
-      --bg: #0f172a; /* slate-900 */
-      --panel: #111827; /* gray-900 */
-      --text: #e5e7eb; /* gray-200 */
-      --muted: #9ca3af; /* gray-400 */
-      --brand: #22c55e; /* green-500 */
-      --border: #1f2937; /* gray-800 */
+      --bg: #0a0a0a; --panel: #1a1a1a; --text: #f0f0f0; --muted: #a0a0a0;
+      --brand: #007aff; --border: #2a2a2a; --shadow: rgba(0, 0, 0, 0.5);
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 80% -10%, #1b263b 0%, var(--bg) 60%);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 10% 20%, rgba(100, 100, 200, 0.1), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(0, 122, 255, 0.1), transparent 30%);
+      color: var(--text); line-height: 1.6; overflow-x: hidden;
     }
     a { color: var(--brand); text-decoration: none; }
     a:hover { text-decoration: underline; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
     header {
-      position: sticky; top: 0; z-index: 10;
-      backdrop-filter: saturate(120%) blur(6px);
-      background: rgba(15, 23, 42, 0.7);
-      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100; backdrop-filter: saturate(150%) blur(10px);
+      background: rgba(10, 10, 10, 0.7); border-bottom: 1px solid var(--border);
+      animation: fadeInDown 0.5s ease-out;
     }
-    .container { max-width: 960px; margin: 0 auto; padding: 0 16px; }
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
-    .brand { display: inline-flex; gap: 10px; align-items: center; font-weight: 700; }
-    .brand .logo { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--brand), #4ade80); display: inline-block; }
-    .nav a { margin-left: 16px; color: var(--text); opacity: 0.9; }
-    .hero { padding: 56px 0 24px; text-align: center; }
-    h1 { font-size: clamp(28px, 4vw, 40px); line-height: 1.2; margin: 0 0 8px; }
-    .lead { color: var(--muted); margin: 0 auto 24px; max-width: 60ch; }
-    .panel {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 20px; }
+    .brand .logo { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a { color: var(--text); font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--brand); }
+    .btn {
+      display: inline-block; padding: 8px 16px; border-radius: 8px; background: var(--brand);
+      color: #fff; font-weight: 500; transition: transform 0.2s, box-shadow 0.2s;
     }
-    main { padding: 16px 0 64px; }
-    section { margin: 24px 0; }
-    section h2 { font-size: 20px; margin: 16px 0 8px; border-left: 4px solid var(--brand); padding-left: 10px; }
-    ul { padding-left: 18px; }
-    footer { border-top: 1px solid var(--border); padding: 24px 0; color: var(--muted); font-size: 14px; }
-    .tiny { font-size: 14px; color: var(--muted); }
-    .lang { font-size: 14px; }
-    .btn { display: inline-block; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border); background: var(--panel); color: var(--text); }
-    .btn:hover { border-color: var(--brand); }
+    .btn:hover { text-decoration: none; transform: scale(1.05); box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3); }
+    .lang-switcher button {
+        background: none; border: 1px solid var(--border); color: var(--muted);
+        padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: background 0.2s, color 0.2s;
+        margin-left: 5px; font-weight: 500;
+    }
+    .lang-switcher button.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .hero { text-align: center; padding: 120px 0 80px; animation: fadeInUp 0.7s ease-out; }
+    h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1.1; margin-bottom: 16px; }
+    .lead { color: var(--muted); margin: 0 auto 32px; max-width: 65ch; font-size: 18px; }
+    .apps-section { padding: 64px 0; }
+    .apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+    .app-card {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+      padding: 24px; text-align: center; box-shadow: 0 10px 30px var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease-out forwards;
+    }
+    .app-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px var(--shadow); }
+    .app-card img { width: 100px; height: 100px; border-radius: 24px; margin-bottom: 20px; box-shadow: 0 4px 10px var(--shadow); }
+    .app-card h3 { font-size: 22px; margin-bottom: 8px; }
+    .app-card .btn { margin-top: 16px; }
+    footer { border-top: 1px solid var(--border); padding: 32px 0; color: var(--muted); font-size: 14px; text-align: center; }
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px); z-index: 1000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+    }
+    .modal-overlay:target { opacity: 1; visibility: visible; }
+    .modal-container {
+      background: var(--panel); padding: 32px; border-radius: 16px; border: 1px solid var(--border);
+      width: 90%; max-width: 800px; max-height: 80vh; overflow-y: auto;
+      transform: scale(0.9); transition: transform 0.3s;
+    }
+    .modal-overlay:target .modal-container { transform: scale(1); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-header h2 { font-size: 24px; }
+    .modal-close { font-size: 24px; color: var(--muted); text-decoration: none; }
+    .privacy-content section { margin-bottom: 24px; }
+    .privacy-content h3 { font-size: 20px; margin: 16px 0 8px; border-left: 4px solid var(--brand); padding-left: 10px; }
+    .privacy-content ul { padding-left: 20px; }
+    .privacy-content .tiny { font-size: 14px; color: var(--muted); }
+    .privacy-lang-content { display: none; }
+    .privacy-lang-content.active { display: block; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    .app-card:nth-child(1) { animation-delay: 0.1s; }
+    .app-card:nth-child(2) { animation-delay: 0.2s; }
+    .app-card:nth-child(3) { animation-delay: 0.3s; }
   </style>
 </head>
+
 <body>
   <header>
     <div class="container nav">
-      <div class="brand"><span class="logo" aria-hidden="true"></span> Ozcelik Inc.</div>
-      <nav class="lang">
-        <a href="#home">Home</a>
-        <a href="#privacy">Privacy Policy</a>
-        <a class="btn" href="mailto:sozcelyk@gmail.com">Contact</a>
+      <a href="#" class="brand"><img src="images/logo.png" alt="Ozcelik Inc. Logosu" class="logo"> Ozcelik Inc.</a>
+      <nav class="nav-links">
+        <a href="#apps" data-translate-key="navApps">Uygulamalar</a>
+        <a href="#privacy-modal" data-translate-key="navPrivacy">Gizlilik Politikası</a>
+        <a class="btn" href="mailto:sozcelyk@gmail.com" data-translate-key="navContact">İletişim</a>
+        <div class="lang-switcher">
+            <button id="lang-tr" class="active">TR</button>
+            <button id="lang-en">EN</button>
+        </div>
       </nav>
     </div>
   </header>
 
-  <div id="home" class="container hero">
-    <h1>Ozcelik Inc.</h1>
-    <p class="lead">Welcome! This is the homepage for the developer <strong>Ozcelik Inc.</strong>. Below you can find the full Privacy Policy and contact details.</p>
-  </div>
+  <main>
+    <section id="home" class="container hero">
+      <h1 data-translate-key="heroTitle">Modern Uygulamalar, Harika Deneyimler</h1>
+      <p class="lead" data-translate-key="heroSubtitle">Ozcelik Inc. olarak, mobil dünyada hayatınızı kolaylaştıran ve eğlenceli hale getiren uygulamalar geliştiriyoruz. Uygulamalarımızı keşfedin!</p>
+    </section>
 
-  <main class="container">
-    <article id="privacy" class="panel" aria-labelledby="privacy-title">
-      <h2 id="privacy-title">Privacy Policy</h2>
-      <p>This privacy policy applies to the <strong>"Kelime Avla", "Manevi Rehber" and "English Test"</strong> app (hereby referred to as "Application") for mobile devices that was created by <strong>Sinan Özçelik</strong> (hereby referred to as "Service Provider") as a Free service. This service is intended for use "AS IS".</p>
-
-      <section>
-        <h2>Information Collection and Use</h2>
-        <p>The Application collects information when you download and use it. This information may include information such as</p>
-        <ul>
-          <li>Your device's Internet Protocol address (e.g. IP address)</li>
-          <li>The pages of the Application that you visit, the time and date of your visit, the time spent on those pages</li>
-          <li>The time spent on the Application</li>
-          <li>The operating system you use on your mobile device</li>
-        </ul>
-        <p>The Application does not gather precise information about the location of your mobile device.</p>
-        <p>The Service Provider may use the information you provided to contact you from time to time to provide you with important information, required notices and marketing promotions.</p>
-        <p>For a better experience, while using the Application, the Service Provider may require you to provide us with certain personally identifiable information. The information that the Service Provider request will be retained by them and used as described in this privacy policy.</p>
-      </section>
-
-      <section>
-        <h2>Third Party Access</h2>
-        <p>Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application and their service. The Service Provider may share your information with third parties in the ways that are described in this privacy statement.</p>
-        <p>Please note that the Application utilizes third-party services that have their own Privacy Policy about handling data. Below are the links to the Privacy Policy of the third-party service providers used by the Application:</p>
-        <ul>
-          <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Play Services</a></li>
-          <li><a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">AdMob</a></li>
-        </ul>
-        <p>The Service Provider may disclose User Provided and Automatically Collected Information:</p>
-        <ul>
-          <li>as required by law, such as to comply with a subpoena, or similar legal process;</li>
-          <li>when they believe in good faith that disclosure is necessary to protect their rights, protect your safety or the safety of others, investigate fraud, or respond to a government request;</li>
-          <li>with their trusted services providers who work on their behalf, do not have an independent use of the information we disclose to them, and have agreed to adhere to the rules set forth in this privacy statement.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Opt-Out Rights</h2>
-        <p>You can stop all collection of information by the Application easily by uninstalling it. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network.</p>
-      </section>
-
-      <section>
-        <h2>Data Retention Policy</h2>
-        <p>The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. If you'd like them to delete User Provided Data that you have provided via the Application, please contact them at <a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a> and they will respond in a reasonable time.</p>
-      </section>
-
-      <section>
-        <h2>Children</h2>
-        <p>The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13.</p>
-        <p>The Application does not address anyone under the age of 13. The Service Provider does not knowingly collect personally identifiable information from children under 13 years of age. In the case the Service Provider discover that a child under 13 has provided personal information, the Service Provider will immediately delete this from their servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact the Service Provider (<a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a>) so that they will be able to take the necessary actions.</p>
-      </section>
-
-      <section>
-        <h2>Security</h2>
-        <p>The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.</p>
-      </section>
-
-      <section>
-        <h2>Changes</h2>
-        <p>This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes to the Privacy Policy by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.</p>
-        <p class="tiny">This privacy policy is effective as of <strong>2025-04-19</strong>.</p>
-      </section>
-
-      <section>
-        <h2>Your Consent</h2>
-        <p>By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy now and as amended by us.</p>
-      </section>
-
-      <section>
-        <h2>Contact Us</h2>
-        <p>If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at <a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a>.</p>
-      </section>
-    </article>
+    <section id="apps" class="container apps-section">
+      <div class="apps-grid">
+        <div class="app-card">
+          <img src="images/english-test-icon.png" alt="English Test App Icon">
+          <h3>English Test</h3>
+          <p data-translate-key="app1Desc">İngilizce seviyenizi ölçmek ve geliştirmek için binlerce soru içeren test uygulaması.</p>
+          <a href="https://play.google.com/store/apps/details?id=com.ozcelikinc.englishtest" class="btn" target="_blank" rel="noopener" data-translate-key="appBtn">Google Play'de Gör</a>
+        </div>
+        <div class="app-card">
+          <img src="images/kelime-avi-icon.png" alt="Kelime Avı App Icon">
+          <h3>Kelime Avı</h3>
+          <p data-translate-key="app2Desc">Verilen harflerle kelimeler bularak zihninizi çalıştırın ve kelime hazinenizi genişletin.</p>
+          <a href="https://play.google.com/store/apps/details?id=com.ozcelikinc.kelimeavlama" class="btn" target="_blank" rel="noopener" data-translate-key="appBtn">Google Play'de Gör</a>
+        </div>
+        <div class="app-card">
+          <img src="images/hang-adam-asmaca-icon.png" alt="Hang (Adam Asmaca) App Icon">
+          <h3>Hang (Adam Asmaca)</h3>
+          <p data-translate-key="app3Desc">Klasik adam asmaca oyununun modern ve eğlenceli versiyonu ile kelime tahmin becerilerinizi test edin.</p>
+          <a href="https://play.google.com/store/apps/details?id=com.ozcelikinc.adamasmaca" class="btn" target="_blank" rel="noopener" data-translate-key="appBtn">Google Play'de Gör</a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <div id="privacy-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 id="privacy-title" data-translate-key="privacyTitle">Gizlilik Politikası</h2>
+        <a href="#" class="modal-close" aria-label="Kapat">&times;</a>
+      </div>
+      <article class="privacy-content" aria-labelledby="privacy-title">
+
+        <div id="privacy-tr" class="privacy-lang-content">
+            <p>Bu gizlilik politikası, <strong>Sinan Özçelik</strong> (bundan sonra "Hizmet Sağlayıcı" olarak anılacaktır) tarafından Ücretsiz bir hizmet olarak oluşturulan mobil cihazlar için <strong>"Kelime Avla", "Manevi Rehber" ve "English Test"</strong> uygulamaları (bundan sonra "Uygulama" olarak anılacaktır) için geçerlidir. Bu hizmet "OLDUĞU GİBİ" kullanım için tasarlanmıştır.</p>
+            <section>
+                <h3>Bilgi Toplama ve Kullanım</h3>
+                <p>Uygulama, indirdiğinizde ve kullandığınızda bilgi toplar. Bu bilgiler şunları içerebilir:</p>
+                <ul>
+                    <li>Cihazınızın İnternet Protokol adresi (ör. IP adresi)</li>
+                    <li>Uygulamanın ziyaret ettiğiniz sayfaları, ziyaretinizin saati ve tarihi, bu sayfalarda geçirilen süre</li>
+                    <li>Uygulamada geçirilen süre</li>
+                    <li>Mobil cihazınızda kullandığınız işletim sistemi</li>
+                </ul>
+                <p>Uygulama, mobil cihazınızın kesin konumu hakkında bilgi toplamaz.</p>
+                <p>Hizmet Sağlayıcı, size zaman zaman önemli bilgiler, gerekli bildirimler ve pazarlama promosyonları sağlamak için verdiğiniz bilgileri kullanabilir.</p>
+                <p>Daha iyi bir deneyim için, Uygulamayı kullanırken, Hizmet Sağlayıcı sizden belirli kişisel olarak tanımlanabilir bilgiler sağlamanızı isteyebilir. Hizmet Sağlayıcının talep ettiği bilgiler kendileri tarafından saklanacak ve bu gizlilik politikasında açıklandığı şekilde kullanılacaktır.</p>
+            </section>
+            <section>
+                <h3>Üçüncü Taraf Erişimi</h3>
+                <p>Yalnızca toplu, anonimleştirilmiş veriler, Hizmet Sağlayıcının Uygulamayı ve hizmetlerini iyileştirmesine yardımcı olmak için periyodik olarak harici hizmetlere iletilir. Hizmet Sağlayıcı, bilgilerinizi bu gizlilik bildiriminde açıklanan şekillerde üçüncü taraflarla paylaşabilir.</p>
+                <p>Uygulamanın, veri işleme konusunda kendi Gizlilik Politikalarına sahip üçüncü taraf hizmetleri kullandığını lütfen unutmayın. Aşağıda, Uygulama tarafından kullanılan üçüncü taraf hizmet sağlayıcıların Gizlilik Politikası bağlantıları bulunmaktadır:</p>
+                <ul>
+                    <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Play Hizmetleri</a></li>
+                    <li><a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">AdMob</a></li>
+                </ul>
+            </section>
+            <h3>Vazgeçme Hakları</h3><p>Uygulamayı kaldırarak tüm bilgi toplamayı kolayca durdurabilirsiniz. Mobil cihazınızın bir parçası olarak veya mobil uygulama pazaryeri veya ağı aracılığıyla mevcut olabilecek standart kaldırma işlemlerini kullanabilirsiniz.</p>
+            <h3>Veri Saklama Politikası</h3><p>Hizmet Sağlayıcı, Kullanıcı Tarafından Sağlanan verileri, Uygulamayı kullandığınız sürece ve sonrasında makul bir süre boyunca saklayacaktır. Uygulama aracılığıyla sağladığınız Kullanıcı Tarafından Sağlanan Verilerin silinmesini isterseniz, lütfen <a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a> adresinden onlarla iletişime geçin; makul bir süre içinde yanıt vereceklerdir.</p>
+            <h3>Çocuklar</h3><p>Hizmet Sağlayıcı, Uygulamayı 13 yaşın altındaki çocuklardan bilerek veri istemek veya onlara pazarlama yapmak için kullanmaz. Uygulama 13 yaşın altındaki hiç kimseye hitap etmemektedir. Hizmet Sağlayıcı, 13 yaşın altındaki çocuklardan bilerek kişisel olarak tanımlanabilir bilgi toplamaz. Hizmet Sağlayıcının 13 yaşın altındaki bir çocuğun kişisel bilgi verdiğini tespit etmesi durumunda, bunu derhal sunucularından silecektir. Bir ebeveyn veya vasi iseniz ve çocuğunuzun bize kişisel bilgi verdiğinin farkındaysanız, gerekli işlemleri yapabilmeleri için lütfen Hizmet Sağlayıcı ile (<a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a>) iletişime geçin.</p>
+            <h3>Güvenlik</h3><p>Hizmet Sağlayıcı, bilgilerinizin gizliliğini koruma konusunda endişelidir. Hizmet Sağlayıcı, işlediği ve sürdürdüğü bilgileri korumak için fiziksel, elektronik ve usule ilişkin güvenceler sağlar.</p>
+            <h3>Değişiklikler</h3><p>Bu Gizlilik Politikası, herhangi bir nedenle zaman zaman güncellenebilir. Hizmet Sağlayıcı, bu sayfayı yeni Gizlilik Politikası ile güncelleyerek Gizlilik Politikasındaki herhangi bir değişikliği size bildirecektir. Devam eden kullanım tüm değişikliklerin onayı olarak kabul edildiğinden, herhangi bir değişiklik için bu Gizlilik Politikasını düzenli olarak incelemeniz tavsiye edilir.</p>
+            <p class="tiny">Bu gizlilik politikası <strong>2025-04-19</strong> tarihinden itibaren geçerlidir.</p>
+            <h3>Rızanız</h3><p>Uygulamayı kullanarak, bilgilerinizin bu Gizlilik Politikasında belirtildiği şekilde ve tarafımızca değiştirildiği şekliyle işlenmesine rıza göstermektesiniz.</p>
+            <h3>Bize Ulaşın</h3><p>Uygulamayı kullanırken gizlilikle ilgili herhangi bir sorunuz varsa veya uygulamalar hakkında sorularınız varsa, lütfen <a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a> adresinden e-posta yoluyla Hizmet Sağlayıcı ile iletişime geçin.</p>
+        </div>
+
+        <div id="privacy-en" class="privacy-lang-content">
+            <p>This privacy policy applies to the <strong>"Kelime Avla", "Manevi Rehber" and "English Test"</strong> app (hereby referred to as "Application") for mobile devices that was created by <strong>Sinan Özçelik</strong> (hereby referred to as "Service Provider") as a Free service. This service is intended for use "AS IS".</p>
+            <section>
+                <h3>Information Collection and Use</h3>
+                <p>The Application collects information when you download and use it. This information may include information such as</p>
+                <ul>
+                    <li>Your device's Internet Protocol address (e.g. IP address)</li>
+                    <li>The pages of the Application that you visit, the time and date of your visit, the time spent on those pages</li>
+                    <li>The time spent on the Application</li>
+                    <li>The operating system you use on your mobile device</li>
+                </ul>
+                <p>The Application does not gather precise information about the location of your mobile device.</p>
+                <p>The Service Provider may use the information you provided to contact you from time to time to provide you with important information, required notices and marketing promotions.</p>
+                <p>For a better experience, while using the Application, the Service Provider may require you to provide us with certain personally identifiable information. The information that the Service Provider request will be retained by them and used as described in this privacy policy.</p>
+            </section>
+            <section>
+                <h3>Third Party Access</h3>
+                <p>Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application and their service. The Service Provider may share your information with third parties in the ways that are described in this privacy statement.</p>
+                <p>Please note that the Application utilizes third-party services that have their own Privacy Policy about handling data. Below are the links to the Privacy Policy of the third-party service providers used by the Application:</p>
+                <ul>
+                    <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Play Services</a></li>
+                    <li><a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">AdMob</a></li>
+                </ul>
+            </section>
+            <h3>Opt-Out Rights</h3><p>You can stop all collection of information by the Application easily by uninstalling it. You may use the standard uninstall processes as may be available as part of your mobile device or via the mobile application marketplace or network.</p>
+            <h3>Data Retention Policy</h3><p>The Service Provider will retain User Provided data for as long as you use the Application and for a reasonable time thereafter. If you'd like them to delete User Provided Data that you have provided via the Application, please contact them at <a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a> and they will respond in a reasonable time.</p>
+            <h3>Children</h3><p>The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13. The Application does not address anyone under the age of 13. The Service Provider does not knowingly collect personally identifiable information from children under 13 years of age. In the case the Service Provider discover that a child under 13 has provided personal information, the Service Provider will immediately delete this from their servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact the Service Provider (<a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a>) so that they will be able to take the necessary actions.</p>
+            <h3>Security</h3><p>The Service Provider is concerned about safeguarding the confidentiality of your information. The Service Provider provides physical, electronic, and procedural safeguards to protect information the Service Provider processes and maintains.</p>
+            <h3>Changes</h3><p>This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of any changes to the Privacy Policy by updating this page with the new Privacy Policy. You are advised to consult this Privacy Policy regularly for any changes, as continued use is deemed approval of all changes.</p>
+            <p class="tiny">This privacy policy is effective as of <strong>2025-04-19</strong>.</p>
+            <h3>Your Consent</h3><p>By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy now and as amended by us.</p>
+            <h3>Contact Us</h3><p>If you have any questions regarding privacy while using the Application, or have questions about the practices, please contact the Service Provider via email at <a href="mailto:sozcelyk@gmail.com">sozcelyk@gmail.com</a>.</p>
+        </div>
+      </article>
+    </div>
+  </div>
 
   <footer>
     <div class="container">
       <div>© <span id="year"></span> Sinan Özçelik • Ozcelik Inc.</div>
-      <div class="tiny">Made with ❤️.</div>
     </div>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === "Escape") {
+        window.location.hash = '#';
+      }
+    });
+
+    const translations = {
+        tr: {
+            navApps: "Uygulamalar", navPrivacy: "Gizlilik Politikası", navContact: "İletişim",
+            heroTitle: "Modern Uygulamalar, Harika Deneyimler",
+            heroSubtitle: "Ozcelik Inc. olarak, mobil dünyada hayatınızı kolaylaştıran ve eğlenceli hale getiren uygulamalar geliştiriyoruz. Uygulamalarımızı keşfedin!",
+            app1Desc: "İngilizce seviyenizi ölçmek ve geliştirmek için binlerce soru içeren test uygulaması.",
+            app2Desc: "Verilen harflerle kelimeler bularak zihninizi çalıştırın ve kelime hazinenizi genişletin.",
+            app3Desc: "Klasik adam asmaca oyununun modern ve eğlenceli versiyonu ile kelime tahmin becerilerinizi test edin.",
+            appBtn: "Google Play'de Gör", privacyTitle: "Gizlilik Politikası",
+        },
+        en: {
+            navApps: "Apps", navPrivacy: "Privacy Policy", navContact: "Contact",
+            heroTitle: "Modern Apps, Great Experiences",
+            heroSubtitle: "As Ozcelik Inc., we develop applications that make your life easier and more enjoyable in the mobile world. Discover our apps!",
+            app1Desc: "A test application with thousands of questions to measure and improve your English level.",
+            app2Desc: "Exercise your mind and expand your vocabulary by finding words with the given letters.",
+            app3Desc: "Test your word guessing skills with the modern and fun version of the classic hangman game.",
+            appBtn: "View on Google Play", privacyTitle: "Privacy Policy",
+        }
+    };
+
+    const langTrButton = document.getElementById('lang-tr');
+    const langEnButton = document.getElementById('lang-en');
+    const privacyTr = document.getElementById('privacy-tr');
+    const privacyEn = document.getElementById('privacy-en');
+
+    const setLanguage = (lang) => {
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-translate-key]').forEach(el => {
+            const key = el.getAttribute('data-translate-key');
+            if (translations[lang] && translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+        
+        if(lang === 'tr') {
+            langTrButton.classList.add('active');
+            langEnButton.classList.remove('active');
+            privacyTr.classList.add('active');
+            privacyEn.classList.remove('active');
+        } else {
+            langEnButton.classList.add('active');
+            langTrButton.classList.remove('active');
+            privacyEn.classList.add('active');
+            privacyTr.classList.remove('active');
+        }
+    };
+
+    langTrButton.addEventListener('click', () => setLanguage('tr'));
+    langEnButton.addEventListener('click', () => setLanguage('en'));
+
+    document.addEventListener('DOMContentLoaded', () => {
+        setLanguage('tr'); // Varsayılan dili Türkçe yap
+    });
   </script>
 </body>
 </html>
